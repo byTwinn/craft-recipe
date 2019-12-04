@@ -357,6 +357,48 @@ class Recipe extends Model
 
                         $quantity = round($quantity, 1);
                     }
+                    
+                    // *** START ***  PERSONAL CODE FOR FRENCH UNIT *** //
+                    
+                    if ($outputUnits == 'french') {
+                        if ($row['units'] == "tsps") {
+                            $convertedUnits = Craft::t('recipe', 'cuillère à café');
+                            $quantity = $this->convertToFractions($quantity);
+                        }
+
+                        if ($row['units'] == "tbsps") {
+                            $convertedUnits = Craft::t('recipe', 'cuillère à soupe');
+                            $quantity = $this->convertToFractions($quantity);
+                        }
+                        
+                        if ($row['units'] == "mls") {
+                            
+                            $convertedUnits = "ml";
+                            if ($quantity >= 1000){
+                              $quantity = $quantity * 0.001;
+                              $convertedUnits = "l";
+                            }
+                            
+                        }
+                        if ($row['units'] == "") {
+                            $quantity = $this->convertToFractions($quantity);
+                        }
+                        
+                        if ($row['units'] == "gs") {
+                            $convertedUnits = "g";
+                            if ($quantity >= 1000){
+                              $quantity = $quantity * 0.001;
+                              $convertedUnits = "kg";
+                            }
+                        }
+
+                        if ($row['units'] == "cups") {
+                            $convertedUnits = Craft::t('recipe', 'tasse');
+                            
+                        }
+
+                    }
+                    // *** END ***  PERSONAL CODE FOR FRENCH UNIT *** //
 
                     // Convert imperial units to nice fractions
 
